@@ -1,11 +1,11 @@
 <div class="form">
   <mat-form-field class="chip-list">
     <mat-label>Select</mat-label>
-    <input type="text" matInput [matAutocomplete]="auto">
+    <input type="text" matInput [matAutocomplete]="auto" [formControl]="optionControl">
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option class="option" *ngFor="let option of options" [value]="option" >
-        <div class="checkbox-wrapper" (click)="optionClicked($event)">
-          <mat-checkbox [checked]="option.selected" (change)="toggleSelection(option)" [disableRipple]="true">{{option.value}}</mat-checkbox>
+      <mat-option class="option" *ngFor="let option of filteredOptions$ | async" [value]="option" >
+        <div class="checkbox-wrapper" (click)="optionClicked($event, option)">
+          <mat-checkbox [checked]="selectedOptions.has(option)" (click)="$event.stopPropagation()" (change)="toggleSelection(option)" [disableRipple]="true">{{option.value}}</mat-checkbox>
         </div>
       </mat-option>
     </mat-autocomplete>
